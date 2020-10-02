@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Spring WebSocket Test</title>
+</head>
+<body>
+
+<script>
+var sock = new WebSocket("ws://localhost:8080/myhandler");
+
+sock.onopen = () => {
+	console.log("WebSocket connection opened, sending ping");
+	sock.send("ping");
+	console.log("Ping sent");
+};
+
+sock.onmessage = (e) => {
+	if (e.data === "ping") {
+		console.log("Received ping, sending pong");
+		sock.send("pong");
+		console.log("Pong sent");
+	} else if (e.data === "pong") {
+		console.log("Received pong");
+	} else {
+	    console.log("Received unrecognised message: ''" + e.data + "'");
+	}
+};
+
+sock.onclose = () => {
+	console.log("Connection closed");
+};
+</script>
+
+</body>
+</html>
